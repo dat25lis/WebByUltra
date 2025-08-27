@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero suggestions-page">
+  <div class="subtitle fancy-title">Ваши предложения</div>
+  <form method="POST" action="{{ url_for('contact') }}" class="grid form" id="suggestionForm">
+    <div class="card full">
+      <input type="tel"
+             name="phone"
+             placeholder="Ваш номер телефона (+7XXXXXXXXXX)"
+             pattern="^\\+7\\d{10}$"
+             required>
+    </div>
+    <div class="card full">
+      <textarea name="message" placeholder="Ваше предложение или пожелание" required></textarea>
+    </div>
+    <div class="card full">
+      <button type="submit">Отправить</button>
+    </div>
+  </form>
+  {% if sent %}
+    <div class="card elegant-card success-card" style="margin-top:14px;">
+      <p class="description">✅ Спасибо! Ваше предложение успешно отправлено.</p>
+    </div>
+  {% endif %}
+</section>
+<script>
+document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+  const phoneField=this.querySelector('input[name="phone"]');
+  const regex=/^\\+7\\d{10}$/;
+  if(!regex.test(phoneField.value)){
+    e.preventDefault();
+    phoneField.classList.add('invalid');
+    alert("Введите корректный номер РФ в формате +7XXXXXXXXXX");
+  } else {
+    phoneField.classList.remove('invalid');
+  }
+});
+</script>
+{% endblock %}
+

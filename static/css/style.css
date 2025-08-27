@@ -1,0 +1,214 @@
+
+/* === Шрифты === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;800&display=swap');
+
+:root { --bg:#f5f5f5; --text:#111; --text-light:#3a3a3a; --accent:#2563eb; --accent2:#1e40af; }
+[data-theme="dark"]    { --bg:#0f172a; --text:#f8fafc; --text-light:#cbd5e1; --accent:#facc15; --accent2:#f59e0b; }
+[data-theme="blue"]    { --bg:#e0f2fe; --text:#0c4a6e; --text-light:#075985; --accent:#0284c7; --accent2:#0369a1; }
+[data-theme="purple"]  { --bg:#f3e8ff; --text:#3b0764; --text-light:#581c87; --accent:#9333ea; --accent2:#7e22ce; }
+[data-theme="emerald"] { --bg:#ecfdf5; --text:#064e3b; --text-light:#065f46; --accent:#10b981; --accent2:#059669; }
+
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Фон canvas */
+#starfield {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Стеклянные панели */
+.glass {
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* Хедер */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+.logo { height: 60px; }
+
+.nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+.nav a.active, .nav a:hover { color: var(--accent); }
+
+#themeToggle {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#themeToggle:hover { background: var(--accent2); }
+
+/* Основные блоки */
+.hero { padding: 40px 20px; }
+.grid.two { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+.card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+.poster { width: 100%; border-radius: 12px; }
+.subtitle { font-family:'Montserrat',sans-serif; font-weight:800; font-size: 1.6rem; margin-bottom:12px; }
+.description { font-size: 1rem; color: var(--text-light); }
+.sign { margin-top: 20px; font-style: italic; }
+
+/* Футер */
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+  opacity: 0.9;
+}
+.footer a { color: var(--accent); text-decoration:none; }
+.footer a:hover { text-decoration: underline; }
+
+/* AI Badge */
+.ai-badge {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  display:flex; justify-content:center; align-items:center;
+  cursor: pointer;
+}
+.ai-badge img { width: 28px; height: 28px; }
+.ai-tooltip {
+  display:none;
+  position:absolute;
+  right:60px; bottom:0;
+  background: var(--bg);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:10px 14px;
+  border-radius:12px;
+  font-size:14px;
+  width:260px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.2);
+}
+.ai-tooltip.show { display:block; }
+
+/* Формы */
+input, textarea {
+  width: 100%; padding: 10px; margin-top: 8px;
+  border-radius: 8px; border:1px solid #ccc;
+  font-size: 15px;
+}
+button[type=submit] {
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px;
+  padding: 10px 20px; cursor: pointer;
+  transition: background 0.3s ease;
+}
+button[type=submit]:hover { background: var(--accent2); }
+
+.invalid { border-color: red; }
+/* Кнопки */
+button, .nav a {
+  border: none;
+  border-radius: 30px;       /* скруглённые */
+  padding: 10px 20px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+button:hover, .nav a:hover {
+  background: var(--accent2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.nav a.active {
+  background: var(--accent2);
+  color: #fff !important;
+}
+
+/* Центрированный блок */
+.article.centered {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Большое фото */
+.poster.big {
+  max-width: 100%;
+  width: 320px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--bg);
+  color: var(--text);
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal .close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.links-list {
+  list-style: none;
+  padding: 0;
+}
+.links-list li {
+  margin: 12px 0;
+}
+.links-list a {
+  display: block;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.links-list a:hover {
+  background: var(--accent2);
+}
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="{{ theme|default('light') }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <header class="header glass">
+    <div class="logo-box">
+      <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="Логотип" class="logo">
+    </div>
+    <nav class="nav">
+      <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint=='home' else '' }}">Главная</a>
+      <a href="{{ url_for('about') }}" class="{{ 'active' if request.endpoint=='about' else '' }}">Информация</a>
+      <a href="{{ url_for('contact') }}" class="{{ 'active' if request.endpoint=='contact' else '' }}">Предложения</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle">Сменить тему</button>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer glass">
+    <p>
+      <a href="https://t.me/SalutByBase" target="_blank">@SalutByBase</a> · © Все права защищены
+    </p>
+  </footer>
+
+  <div class="ai-badge" id="aiBadge">
+    <img src="{{ url_for('static', filename=ai_logo_path) }}" alt="AI" />
+    <div class="ai-tooltip" id="aiTooltip">
+      <strong>Кратко о сайте:</strong><br>
+      Официальная страница с обращением и новостями, а также разделом «Предложения» для связи.
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    for (let i = 0; i < 80; i++) {
+      stars.push({x: Math.random()*canvas.width,y:Math.random()*canvas.height,len:Math.random()*60+10,speed:Math.random()*3+1});
+    }
+    function animate() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle='rgba(255,255,255,0.65)';
+      for (let s of stars) {
+        ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-s.len,s.y+s.len);ctx.stroke();
+        s.x+=s.speed;s.y-=s.speed;
+        if(s.y<-100||s.x>canvas.width+100){s.x=Math.random()*canvas.width;s.y=canvas.height+50;}
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    const themes = ["light", "dark", "blue", "purple", "emerald"];
+    let current = 0;
+    const saved = localStorage.getItem("theme");
+    if (saved && themes.includes(saved)) {
+      document.documentElement.setAttribute("data-theme", saved);
+      current = themes.indexOf(saved);
+    }
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      current = (current + 1) % themes.length;
+      const t = themes[current];
+      document.documentElement.setAttribute("data-theme", t);
+      localStorage.setItem("theme", t);
+    });
+
+    const aiBadge = document.getElementById('aiBadge');
+    const aiTooltip = document.getElementById('aiTooltip');
+    aiBadge.addEventListener('click', () => {
+      aiTooltip.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
+

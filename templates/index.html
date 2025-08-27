@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="card article centered">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Фото мэра" class="poster big">
+    <h1 class="subtitle">ГОЛОСУЙ ЗА БУДУЩЕЕ, В КОТОРОМ ХОЧЕШЬ ЖИТЬ!</h1>
+    <div class="description">
+      <p><strong>Уважаемые жители Среднеуральска,</strong></p>
+      <p>В сентябре мы с вами голосуем за губернатора нашего региона. Этот выбор определит будущее
+      Свердловской области и, в частности, нашу жизнь в Среднеуральске.</p>
+      <p>Администрация Среднеуральска приглашает вас прийти на выборы <strong>с 12 по 14 сентября</strong>,
+      чтобы вместе проголосовать за вектор развития региона. Помните, важен каждый голос!</p>
+      <p class="sign">С уважением,<br> Глава муниципального округа Среднеуральск,<br> <strong>Алексей Стасёнок</strong>.</p>
+    </div>
+
+    <!-- Кнопка для открытия модального окна -->
+    <button class="btn" id="openModal">Важные ссылки</button>
+  </div>
+</section>
+
+<!-- Модальное окно -->
+<div id="linksModal" class="modal">
+  <div class="modal-content glass">
+    <span class="close" id="closeModal">&times;</span>
+    <h2>Важные ссылки</h2>
+    <ul class="links-list">
+      <li><a href="https://vk.com/public217250411" target="_blank">Среднеуральская ТИК</a></li>
+      <li><a href="https://дениспаслер.рф/" target="_blank">Сайт Дениса Паслера</a></li>
+      <li><a href="https://vk.com/srednadm66?from=groups" target="_blank">Администрация Среднеуральска</a></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("linksModal");
+  const openBtn = document.getElementById("openModal");
+  const closeBtn = document.getElementById("closeModal");
+
+  openBtn.onclick = () => modal.style.display = "block";
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+</script>
+{% endblock %}
+
